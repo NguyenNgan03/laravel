@@ -9,27 +9,25 @@ use Illuminate\Support\Facades\View;
 class HomeController extends Controller
 {
     //action index
+    public $data = [];
     public function index(){
-        $title = "Hoc lap trinh web tai unicode";
-        $content = "Hoc lap trinh Laravel 8.x tai Unicode";
-        /*
-         * [
-         * 'title' => $title,
-         * 'content' => $content
-         * ]
-         * 
-         * compact('title', 'content')
-         */
-        // compact co chuc nang gom tat ca cac bien thanh mang 
-        return view('home')->with(['title'=> $title, 'content' => $content]);//load view home.php
-        // return View::make('home')->with(['title'=> $title, 'content' => $content]);
+        $this->data['welcome'] = 'Learn coding <b>UNICODE</b> ';
+        $this->data['content'] = '<h3>Topic 1: The World in your eyes </h3>
+        <p>Topic 1</p>
+        <p>Topic 2</p>
+        <p>Topic 3</p>';
 
-        //$contentView = view('home')->render();
-        // $contentView = $contentView->render();// ban chat cua $contentView la mang
-        //dd($contentView); // Can su dung Render de chuyen tu mang sang dang HTML tho 
-        // su dung render de in PDF hoac excel
-        // return $contentView;
+        $this->data['index'] = 1;
 
+        $this->data['dataArr'] = [
+            // 'Group 1',
+            // 'Group 2',
+            // 'Group 3'
+        ];
+
+        $this->data['number'] = 1;
+
+       return view('home', $this->data);
     }
 
     public function getNews(){

@@ -22,7 +22,7 @@ use App\Http\Controllers\HomeController;
 |
 */
 // Client route
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth.admin');
+Route::get('/', [HomeController::class, 'index']);
 Route::middleware('auth.admin')->prefix('categories')->group(function () {
     // danh sach chuyen muc
     Route::get('/', [CategoryController::class, 'index'])->name('categories.list');
