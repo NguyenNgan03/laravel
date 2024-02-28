@@ -55,8 +55,13 @@ class CategoryController extends Controller
         // dd ($id);
 
         // dd(request()->id);
-        $name = request('name','Unicode');
-        dd ($name);
+        // $name = request('name','Unicode');
+
+        // $id =$request->query('id');
+        // dd ($id);
+
+        // $query =$request->query();
+        // dd($query);
 
         return view('/clients/categories/list');
     }
@@ -72,8 +77,12 @@ class CategoryController extends Controller
     public function addCategory(Request $request){
 
         
-        $path = $request->path();
-        echo $path;
+        // $path = $request->path();
+        // echo $path;
+
+        $cateName = $request->old('category_name', 'Default');
+        
+        echo $cateName;
 
         return view('/clients/categories/add');
     }
@@ -83,15 +92,63 @@ class CategoryController extends Controller
 
         // dd($allData);
 
-        if ($request->isMethod('POST')){
-            echo "Method POST";
-        }
+        // if ($request->isMethod('POST')){
+        //     echo "Method POST";
+        // }
 
         // return redirect(route('categories.add'));
         // return 'Submit them chuyen muc';
+
+        // $category = $request->query('id');
+
+        if($request->has('category_name')){
+            $category = $request->category_name;
+            $request->flash();
+           return redirect(route('categories.add'));
+            
+        }
+        else{
+            echo 'Dont have Category';
+        }
+
+        // dd($category);
+
+
     }
     //Xoa du lieu (phuong thuc DELETE)
     public function deleteCategory($id){
         return 'Submit xoa chuyen muc '.$id;
+    }
+
+    public function getFile(){
+        return view('/clients/categories/file');
+    }
+    // Xu ly lay thong tin file 
+    public function handleFile(Request $request){
+        // $file = $request->file('photo');
+       
+        if ($request->hasFile('photo')){
+            if ($request->photo->isValid()){
+                $file = $request->photo;
+                // $path = $file->path();
+                $ext = $file->extension();
+                // $path = $file->store('file-txt', 'local');
+                // $path = $file->storeAs('file-txt','khoa-hoc.txt');
+
+                // $fileName = $file->getClientOriginalName();
+
+                // Doi ten file 
+
+                $fileName = md5(uniqid()).'.'.$ext;
+                dd($fileName);
+            }
+            else{
+                return "Upload not successful";
+            }
+        }
+        else{
+            return "Please choose file";
+        }
+      
     }
 }

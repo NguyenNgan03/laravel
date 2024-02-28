@@ -41,6 +41,13 @@ Route::middleware('auth.admin')->prefix('categories')->group(function () {
 
     //Xoa chuyen muc
     Route::delete('delete/{id}', [CategoryController::class, 'deleteCategory']);
+
+    //Hien thi form upload
+    Route::get('/upload', [CategoryController::class, 'getFile']);
+    
+    //Xu ly file
+    Route::post('/upload', [CategoryController::class, 'handleFile'])->name('category.upload');
+
 });
 
 Route::get('san-pham/{id}', [HomeController::class, 'getProductDetail']);
@@ -49,3 +56,6 @@ Route::middleware('auth.admin')->prefix('admin')->group(function () {
     Route::get('/',[DashboardController::class, 'index']);
     Route::resource('products', ProductsController::class)->middleware('auth.admin.product');
 });
+
+
+
