@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\HomeController;
 
 
 
@@ -21,9 +22,7 @@ use App\Http\Controllers\Admin\DashboardController;
 |
 */
 // Client route
-Route::get('/', function (){
-    return '<h1 style="text-align:center">Trang chu Unicode </h1>';
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home', );
 Route::prefix('categories')->group(function () {
     // danh sach chuyen muc
     Route::get('/', [CategoryController::class, 'index'])->name('categories.list');
@@ -44,6 +43,7 @@ Route::prefix('categories')->group(function () {
     Route::delete('delete/{id}', [CategoryController::class, 'deleteCategory']);
 });
 
+Route::get('san-pham/{id}', [HomeController::class, 'getProductDetail']);
 // Admin route
 Route::middleware('auth.admin')->prefix('admin')->group(function () {
     Route::get('/',[DashboardController::class, 'index']);
