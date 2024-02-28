@@ -5,6 +5,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\DashboardController;
+
 
 
 
@@ -19,6 +21,9 @@ use App\Http\Controllers\Admin\ProductsController;
 |
 */
 // Client route
+Route::get('/', function (){
+    return '<h1 style="text-align:center">Trang chu Unicode </h1>';
+})->name('home');
 Route::prefix('categories')->group(function () {
     // danh sach chuyen muc
     Route::get('/', [CategoryController::class, 'index'])->name('categories.list');
@@ -40,6 +45,7 @@ Route::prefix('categories')->group(function () {
 });
 
 // Admin route
-Route::prefix('admin')->group(function () {
-    Route::resource('products', ProductsController::class);
+Route::middleware('auth.admin')->prefix('admin')->group(function () {
+    Route::get('/',[DashboardController::class, 'index']);
+    Route::resource('products', ProductsController::class)->middleware('auth.admin.product');
 });

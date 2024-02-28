@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   public function __construct(){
+    // echo 'Product khoi dong ';
+    // su dung session de check login 
+   }
     public function index()
     {
         //
