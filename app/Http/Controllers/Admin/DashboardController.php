@@ -13,6 +13,6 @@ class DashboardController extends Controller
 
     }
     public function index(){
-        return '<h2>Dashboard</h2>';
+        echo'<h2>Dashboard</h2>';
     }
 }

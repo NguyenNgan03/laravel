@@ -13,17 +13,23 @@ class CheckLoginAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
         // echo 'Middleware Request';
         if (!$this->isLogin()){
             return redirect(route('home'));
         }
+
+        // if($request->is('admin')){
+        //     echo 'Admin Area';
+        // }
+
+
         return $next($request);
     }
 
     public function isLogin (){
-        return false;
+        return true;
     }
 
 }
