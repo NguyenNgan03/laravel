@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('',function(){
+// Route::get('/',function(){
 //     $html = '<h1>Hoc lap trinh </h1>';
 //     return $html;
 // });
@@ -23,10 +24,10 @@ use Illuminate\Http\Request;
 //     return 'Phuong thuc post cua path /unicode';
 // });
 
-// Route::get('unicode', function(){
-//     return view('form');
-//     // return 'Phuong thuc get cua path /unicode';
-// });
+Route::get('unicode', function(){
+    return view('form');
+    // return 'Phuong thuc get cua path /unicode';
+});
 
 // Route::put('unicode', function(){
 //     return 'Phuong thuc Put cua path /unicode';
@@ -56,23 +57,42 @@ use Illuminate\Http\Request;
 // Route::redirect('unicode', 'show-form', 301);
 
 // Route::view('show-form', 'form');
-route:: prefix('admin')->group(function(){
-    Route::get('unicode', function(){
-        return 'Phuong thuc get cua path /unicode';
-    });
+Route::get ('/', 'App\Http\Controllers\HomeController@index')->name('home');
+
+Route::get ('/tin-tuc', 'HomeController@getNews')->name('news');
+
+Route::get('/chuyen-muc/{id}', [HomeController::class,'getCategory']);
+
+Route::get('/', function(){
+    return view('home');
+})->name('home');
+
+Route:: prefix('admin')->group(function(){
+    Route::get('tin-tuc/{id?}/{slug?}.html', function($id=null, $slug=null ){
+        $content = 'Phuong thuc get cua path /unicode voi tham so ';
+        $content.='id = '.$id .'<br>';
+        $content.='slug = '.$slug;
+        return $content;
+    })->where(
+        //validate cho bien trong URL
+        [
+            'slug'=>'.+',
+            'id'=>'[0-9]+'
+        ]
+    )->name('admin.tintuc');
     
     Route::get('show-form', function(){
         return view('form');
-    });
+    })->name('admin.show-form');
 
-    Route::prefix('products')->group(function(){
+    Route::prefix('products')->middleware('checkpermission')->group(function(){
         Route::get('/', function (){
             return "Danh sach san pham";
         });
 
         Route::get('add', function (){
             return "Them san pham";
-        });
+        })->name('admin.products.add');
 
         Route::get('edit', function (){
             return "Sua san pham";
