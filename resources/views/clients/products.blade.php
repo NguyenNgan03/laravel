@@ -10,6 +10,7 @@
 @endsection --}}
 @section('content')
 <h1>Product Page</h1>
+<x-package-alert/>
 @push('scripts')
 <script>
     console.log('Push the product 2')

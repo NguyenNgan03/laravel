@@ -23,6 +23,7 @@
     <p> Dev Enviroment</p>
 @endenv
 
+<x-alert type="info" :content='$message' data-icon= "facebook" />
 @endsection
 
 @section('css')
