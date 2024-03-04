@@ -4,21 +4,16 @@
    {{ $title }}
 @endsection
 
-@section('sidebar')
-    @parent
+{{-- @section('sidebar')
+    <!-- @parent -->
     <h3>Products Sidebar</h3>
-@endsection
+@endsection --}}
 @section('content')
     <h1>Product Page</h1>
 @endsection
 
 @section('css')
-    <style>
-        header{
-            background: yellow;
-            color: #333;
-        }
-    </style>
+   
 @endsection
 
 @section('js')
