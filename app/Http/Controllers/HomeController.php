@@ -11,25 +11,16 @@ class HomeController extends Controller
     //action index
     public $data = [];
     public function index(){
-        $this->data['welcome'] = 'Learn coding <b>UNICODE</b> ';
-        $this->data['content'] = '<h3>Topic 1: The World in your eyes </h3>
-        <p>Topic 1</p>
-        <p>Topic 2</p>
-        <p>Topic 3</p>';
+        $this->data['title'] = "Training programmer";
 
-        $this->data['index'] = 1;
+       return view('clients.home', $this->data);
+    }
 
-        $this->data['dataArr'] = [
-            // 'Group 1',
-            // 'Group 2',
-            // 'Group 3'
-        ];
+    public function products(){
+        $this->data['title'] = "Product";
+       return view('clients.products', $this->data);
 
-        $this->data['number'] = 1;
 
-        $this->data['message'] = 'Order successfull.';
-
-       return view('home', $this->data);
     }
 
     public function getNews(){

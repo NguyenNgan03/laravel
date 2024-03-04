@@ -22,7 +22,6 @@ use App\Http\Controllers\HomeController;
 |
 */
 // Client route
-Route::get('/', [HomeController::class, 'index']);
 Route::middleware('auth.admin')->prefix('categories')->group(function () {
     // danh sach chuyen muc
     Route::get('/', [CategoryController::class, 'index'])->name('categories.list');
@@ -56,6 +55,10 @@ Route::middleware('auth.admin')->prefix('admin')->group(function () {
     Route::get('/',[DashboardController::class, 'index']);
     Route::resource('products', ProductsController::class)->middleware('auth.admin.product');
 });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/san-pham', [HomeController::class, 'products'])->name('product');
 
 
 
