@@ -48,4 +48,14 @@ class HomeController extends Controller
     public function getProductDetail($id){
         return view('clients.products.detail', compact('id'));
     }
+
+    public function getArr(){
+        $contentArr = [
+            'name' => 'Laravel 10.x',
+            'lesson' => 'Khoa hoc lap trinh Larave',
+            'academy' => 'Unicode Academy'
+        ];
+        return $contentArr;
+    }
 }
+
