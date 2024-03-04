@@ -23,6 +23,21 @@ class HomeController extends Controller
 
     }
 
+    public function getAdd(){
+        $this->data['title'] = "Add Product";
+
+        return view('clients.add', $this->data);
+    }
+
+    public function postAdd(Request $request){
+        echo "Method PUT";
+        dd($request);
+    }
+
+    public function putAll(Request $request){
+        dd($request);
+    }
+
     public function getNews(){
         return 'Danh sach tin tuc';
     }
