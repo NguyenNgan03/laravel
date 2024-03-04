@@ -15,6 +15,14 @@
 @include('clients.contents.about')
 @datetime("2024-03-05 05:00:00")
 
+@env('production')
+    <p>Production Enviroment</p>
+@elseenv('test')
+    <p>Test Enviroment</p>
+@else
+    <p> Dev Enviroment</p>
+@endenv
+
 @endsection
 
 @section('css')
