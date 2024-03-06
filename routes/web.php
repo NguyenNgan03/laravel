@@ -66,20 +66,6 @@ Route::put('add-product', [HomeController::class, 'postAdd']);
 Route::get('get-inf', [HomeController::class, 'getArr']);
 
 // Response
-Route::get('demo-response', function () {
-    // $response = new Response("Hoc lap trinh tai Unicode", 200);
-    // $response = response('Hoc lap trinh tai Unicodde', 404);
-    // $content = '<h2>Hoc lap trinh tai Unicode </h2>';
-    // $content = json_encode ([
-    //     'Item 1',
-    //     'Item 2',
-    //     "Item 3"
-    // ]);
-    // $response = (new Response($content))->header('content-Type', 'application/json');
-
-    $response = (new Response())->cookie('unicode', 'Trainning PHP - Laravel', 30);
-    return $response;
-});
 
 // Cookie
 Route::get('demo-response-cookie', function (Request $request) {
@@ -96,3 +82,21 @@ Route::get('demo-response-view', function () {
         ->header('API-Key', '123456');
     return $response;
 });
+
+
+Route::get('demo-response', function () {
+    return view('clients.demo-test');
+})->name('demo-response');
+
+Route::post('demo-response', function (Request $request)
+ {
+    if (!empty($request->username)){
+        return back()->withInput()->with('mess', 'Validate successful');
+    }
+    else{
+        return redirect(route('demo-response'))->with('mess', 'validate fail');
+
+    }
+});
+
+
