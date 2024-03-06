@@ -99,4 +99,10 @@ Route::post('demo-response', function (Request $request)
     }
 });
 
+//Tai anh
+Route::get('/download-image', [HomeController::class, 'downloadImage']
+)->name('download-image');
 
+//Tai doc
+Route::get('/download-doc', [HomeController::class, 'downloadDoc']
+)->name('download-doc');
