@@ -47,11 +47,11 @@ class ProductRequest extends FormRequest
         ];
     }
 
-    protected function withValidator($validator)
+    protected function withValidator($validate)
     {
-        $validator->after(function ($validator) {
-            if ($validator->errors()->count() > 0) {
-                $validator->errors()->add('msg', 'Have Error. Please recheck your system');
+        $validate->after(function ($validate) {
+            if ($validate->errors()->count() > 0) {
+                $validate->errors()->add('msg', 'Have Error. Please recheck your system');
             }
         });
     }
@@ -67,6 +67,6 @@ class ProductRequest extends FormRequest
         // throw new AuthorizationException("You dont have allow to access");
         // throw new HttpResponseException(redirect('/')->with('msg', 'Ban Khong co quyen truy cap')->with('type','danger'));
 
-        throw new HttpResponseException(abort(404));
+        // throw new HttpResponseException(abort(404));
     }
 }
