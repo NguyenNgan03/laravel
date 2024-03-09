@@ -35,7 +35,7 @@ class HomeController extends Controller
 
     public function postAdd(ProductRequest $ProductRequest)
     {
-        dd($ProductRequest);
+        dd($ProductRequest->all());
         // $rules = [
         //     'product_name' => 'required|min:6',
         //     'product_price' => 'required|integer'

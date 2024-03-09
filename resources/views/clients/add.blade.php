@@ -7,12 +7,11 @@
 @section('content')
 <h1>Add Product</h1>
 <form action="" method="post">
-    @if($errors->any())
+    @error('msg')
     <div class="alert alert-danger text-center">
-        {{ $errorMessage }}
+        {{$message}}
     </div>
-    @endif
-
+    @enderror
     <div class="mb-3">
         <label for="">Name product: </label>
         <input type="text" class="form-control" name="product_name" placeholder="Product name...." value="{{old('product_name')}}">
