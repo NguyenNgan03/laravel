@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProductRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -36,11 +38,35 @@ class ProductRequest extends FormRequest
             'product_price.integer' => 'The :attribute of product must be Integer'
         ];
     }
-//Thay doi truong cho bang 
-    public function attributes(){
+    //Thay doi truong cho bang 
+    public function attributes()
+    {
         return [
-            'product_name'=>'Name of the product',
-            'product_price'=>'Price of the product'
+            'product_name' => 'Name of the product',
+            'product_price' => 'Price of the product'
         ];
+    }
+
+    protected function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($validator->errors()->count() > 0) {
+                $validator->errors()->add('msg', 'Have Error. Please recheck your system');
+            }
+        });
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'create_at' => date('Y-m-d H:i:s')
+        ]);
+    }
+    protected function failedAuthorization()
+    {
+        // throw new AuthorizationException("You dont have allow to access");
+        // throw new HttpResponseException(redirect('/')->with('msg', 'Ban Khong co quyen truy cap')->with('type','danger'));
+
+        throw new HttpResponseException(abort(404));
     }
 }
