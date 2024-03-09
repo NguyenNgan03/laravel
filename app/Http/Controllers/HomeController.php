@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\View;
 
@@ -35,25 +36,34 @@ class HomeController extends Controller
 
     public function postAdd(ProductRequest $ProductRequest)
     {
-        dd($ProductRequest->all());
-        // $rules = [
-        //     'product_name' => 'required|min:6',
-        //     'product_price' => 'required|integer'
-        // ];
+        $rules = [
+            'product_name' => 'required|min:6',
+            'product_price' => 'required|integer'
+        ];
 
-        // $message =[
-        //     'product_name.required'=>'The :attribute of product is required',
-        //     'product_name.min'=>'The :attribute of product no least as :min character',
-        //     'product_price.required'=>'The :attribute of product is required',
-        //     'product_price.integer'=>'The :attribute of product must be Integer'
+        // $messages = [
+        //     'product_name.required' => 'product_name of product is required',
+        //     'product_name.min' => 'product_name of product no least as :min character',
+        //     'product_price.required' => 'product_price of product is required',
+        //     'product_price.integer' => 'product_price of product must be Integer'
         // ];
-
-        // $message = [
-        //     'required' => 'The :attribute of product is required',
-        //     'min' => 'The :attribute of product no least as :min character',
-        //     'integer' => 'The :attribute of product must be Integer'
-        // ];
-
+        $messages = [
+            'required' => 'The :attribute of product is required',
+            'min' => 'The :attribute of product no least as :min character',
+            'integer' => 'The :attribute of product must be Integer'
+        ];
+        $attribute = [
+            'product_name' => 'The name of product',
+            'product_price' => 'The price of product'
+        ];
+        $validate = Validator::make($ProductRequest->all(), $rules, $messages, $attribute);
+        //$validate->validate();
+        if ($validate->fails()) {
+            $validate->errors()->add('msg', 'Please recheck your data');
+        } else {
+            return redirect()->route('product')->with('msg', 'Validate is successful');
+        }
+        return back()->withErrors($validate);
 
         // $ProductRequest->validate($rules, $message);
     }

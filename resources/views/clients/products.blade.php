@@ -9,8 +9,10 @@
     <h3>Products Sidebar</h3>
 @endsection --}}
 @section('content')
+@if (session('msg'))
+<div class="alert alert-success"> {{session('msg')}}</div>
+@endif 
 <h1>Product Page</h1>
-<x-package-alert/>
 @push('scripts')
 <script>
     console.log('Push the product 2')
