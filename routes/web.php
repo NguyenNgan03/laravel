@@ -60,7 +60,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('san-pham', [HomeController::class, 'products'])->name('product');
 Route::get('add-product', [HomeController::class, 'getAdd']);
-// Route::post('add-product', [HomeController::class, 'postAdd']);
+Route::post('add-product', [HomeController::class, 'postAdd']);
 Route::put('add-product', [HomeController::class, 'postAdd']);
 
 Route::get('get-inf', [HomeController::class, 'getArr']);
