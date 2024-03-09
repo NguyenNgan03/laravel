@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 
 use Illuminate\Support\Facades\View;
 
@@ -32,12 +33,13 @@ class HomeController extends Controller
         return view('clients.add', $this->data);
     }
 
-    public function postAdd(Request $request)
+    public function postAdd(ProductRequest $ProductRequest)
     {
-        $rules = [
-            'product_name' => 'required|min:6',
-            'product_price' => 'required|integer'
-        ];
+        dd($ProductRequest);
+        // $rules = [
+        //     'product_name' => 'required|min:6',
+        //     'product_price' => 'required|integer'
+        // ];
 
         // $message =[
         //     'product_name.required'=>'The :attribute of product is required',
@@ -46,14 +48,14 @@ class HomeController extends Controller
         //     'product_price.integer'=>'The :attribute of product must be Integer'
         // ];
 
-        $message = [
-            'required' => 'The :attribute of product is required',
-            'min' => 'The :attribute of product no least as :min character',
-            'integer' => 'The :attribute of product must be Integer'
-        ];
+        // $message = [
+        //     'required' => 'The :attribute of product is required',
+        //     'min' => 'The :attribute of product no least as :min character',
+        //     'integer' => 'The :attribute of product must be Integer'
+        // ];
 
 
-        $request->validate($rules, $message);
+        // $ProductRequest->validate($rules, $message);
     }
 
     public function putAll(Request $request)
