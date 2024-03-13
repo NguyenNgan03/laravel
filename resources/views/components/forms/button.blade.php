@@ -1,1 +1,3 @@
-<button type="btn btn-success ">Order now</button>
+<button type="button" class= "btn btn-success">
+    Đặt hàng thành công
+</button>

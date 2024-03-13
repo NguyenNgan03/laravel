@@ -2,39 +2,50 @@
 
 namespace App\Rules;
 
-use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Rule;
 
-class UpperCase implements ValidationRule
+class Uppercase implements Rule
 {
     private $attribute = null;
     /**
-     * Run the validation rule.
+     * Create a new rule instance.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function validate(string $attribute, mixed $value, Closure $fail): void
+    public function __construct()
     {
         //
     }
+
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
     public function passes($attribute, $value)
     {
         $this->attribute = $attribute;
-        dd($attribute);
-        die();
-        if ($value === mb_strtoupper($value, 'UTF-8')) {
+        //
+        if($value == mb_strtoupper($value,'UTF-8')){
             return true;
         }
         return false;
     }
 
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
     public function message()
     {
-        $customMessage = 'vaidation.custom'.($this->attribute).'product_name.uppercase';
-
-        if (trans($customMessage) != $customMessage) {
+       // return 'Trường :attribute không hợp lệ';\
+       $customMessage = 'validation.custom'.($this->attribute).'uppercase';
+      if (trans($customMessage)!= ($customMessage) ){
             return trans($customMessage);
-        }
-        return trans('vaidation.uppercase');
+       }
+       return trans('validation.uppercase');
     }
 }

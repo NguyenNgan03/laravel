@@ -1,1 +1,0 @@
-<h2 class="alert alert-{{$type}} text-center"> <i class="fa fa-{{ $dataIcon  }}content}}</h2>

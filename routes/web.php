@@ -7,9 +7,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyOontroller;
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\MyController;
 use Illuminate\Http\Response;
-
-
+use Illuminate\Mail\Mailables\Content;
+use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,92 +21,62 @@ use Illuminate\Http\Response;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
-// Client route
+// client route
+// Route::get('/', [HomeController::class,'index'])->name('home');
+// Route::prefix('category')->group(function () {
+//     // Danh sách chuyên mục
+//     Route::get('/', [CategoryController::class, 'index'])->name('category.list');
 
-Route::middleware('auth.admin')->prefix('categories')->group(function () {
-    // danh sach chuyen muc
-    Route::get('/', [CategoryController::class, 'index'])->name('categories.list');
+//     Route::get('/edit/{id}', [CategoryController::class, 'getCategory'])->name('category.edit');;
 
-    //lay chi tiet mot chuyen muc (Ap dung show forms sua chuyen muc)
-    Route::get('/edit/{id}', [CategoryController::class, 'getCategory'])->name('categories.edit');
+//     Route::post('', [CategoryController::class, 'updateCategory']);
 
-    //Xu ly update chuyen muc
-    Route::post('/eidt/{id}', [CategoryController::class, 'updateCategory']);
+//     Route::get('/add', [CategoryController::class, 'addCategory'])->name('category.add');
 
-    //Hien thi form add du lieu
-    Route::get('/add', [CategoryController::class, 'addCategory'])->name('categories.add');
+//     Route::post('/add', [CategoryController::class, 'showCategory']);
 
-    //Xu ly them chuyen muc
-    Route::post('/add', [CategoryController::class, 'handleAddCategory']);
+//     Route::delete('/delete/{id}', [CategoryController::class, 'deleteCategory']);
 
-    //Xoa chuyen muc
-    Route::delete('delete/{id}', [CategoryController::class, 'deleteCategory']);
+//     Route::post("/upload", [CategoryController::class, 'Handlefile'])->name('category.file');
+//     Route::get("/upload", [CategoryController::class, 'getFile']);
+// });
 
-    //Hien thi form upload
-    Route::get('/upload', [CategoryController::class, 'getFile']);
-
-    //Xu ly file
-    Route::post('/upload', [CategoryController::class, 'handleFile'])->name('category.upload');
-});
-
-Route::get('san-pham/{id}', [HomeController::class, 'getProductDetail']);
-// Admin route
-Route::middleware('auth.admin')->prefix('admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
-    Route::resource('products', ProductsController::class)->middleware('auth.admin.product');
-});
+// Route::middleware('autho.admin')->prefix('admin')->group(function () {
+//     Route::get('/', [DashboardController::class, 'index']);
+//     Route::resource('products', ProductsController::class)->middleware('auth.admin');
+// });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('san-pham', [HomeController::class, 'products'])->name('product');
-Route::get('add-product', [HomeController::class, 'getAdd']);
-Route::post('add-product', [HomeController::class, 'postAdd']);
-Route::put('add-product', [HomeController::class, 'postAdd']);
-
-Route::get('get-inf', [HomeController::class, 'getArr']);
-
-// Response
-
-// Cookie
-Route::get('demo-response-cookie', function (Request $request) {
-    return $request->cookie('unicode');
-});
-
-Route::get('demo-response-view', function () {
-    // return view('clients.demo-test');
-    $response = response()
-        ->view('clients.demo-test', [
-            'title' => 'Hoc HTTP response'
-        ], 201)
-        ->header('Content-Type', 'application/json')
-        ->header('API-Key', '123456');
-    return $response;
-});
+Route::get('/sanpham', [HomeController::class, 'products'])->name('product');
+Route::get('/them-san-pham', [HomeController::class, 'getAdd']);
+Route::post('/them-san-pham',[HomeController::class,'postAdd'])->name('post-add');
+Route::put('/them-san-pham', [HomeController::class, 'putAdd']);
 
 
-Route::get('demo-response', function () {
-    return view('clients.demo-test');
+Route::get('lay-thong-tin', [HomeController::class, 'getArray']);
+Route::get('/demo-response', function () {
+
+  return view('client.demo-test');
+
 })->name('demo-response');
+Route::post('demo-response',function(Request $request){
+    if(!empty($request->username)){
 
-Route::post('demo-response', function (Request $request)
- {
-    if (!empty($request->username)){
-        return back()->withInput()->with('mess', 'Validate successful');
-    }
-    else{
-        return redirect(route('demo-response'))->with('mess', 'validate fail');
-
-    }
+         return back()->withInput()->with('mess','validate không thành công');
+    };
+     return  redirect(route('demo-response'))->with('mess','validate không thành công');
 });
+Route::get('download-image/{link}',[HomeController::class, 'downloadImg'])->name('downImg');
 
-//Tai anh
-Route::get('/download-image', [HomeController::class, 'downloadImage']
-)->name('download-image');
-
-//Tai doc
-Route::get('/download-doc', [HomeController::class, 'downloadDoc']
-)->name('download-doc');
+Route::prefix('/users')->name('users.')->group(function(){
+     Route::get('/',[UserController::class,'index'])->name('index');
+     Route::get('/add',[UserController::class,'add'])->name('add');
+     Route::post('/add',[UserController::class,'postAdd'])->name('post-add');
+     Route::get('/edit/{id}',[UserController::class,'getEdit'])->name('edit');
+     Route::post('/update',[UserController::class,'postEdit'])->name('post-edit');
+     Route::get('/delete/{id}',[UserController::class,'delete'])->name('delete');
+});
