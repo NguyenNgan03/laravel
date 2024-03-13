@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Validator;
+use  App\Rules\UpperCase;
 
 use Illuminate\Support\Facades\View;
 
@@ -37,8 +38,8 @@ class HomeController extends Controller
     public function postAdd(ProductRequest $ProductRequest)
     {
         $rules = [
-            'product_name' => 'required|min:6',
-            'product_price' => 'required|integer'
+            'product_name' => ['required', 'min:6', new UpperCase],
+            'product_price' => ['required','integer', new UpperCase],
         ];
 
         // $messages = [
@@ -50,7 +51,9 @@ class HomeController extends Controller
         $messages = [
             'required' => 'The :attribute of product is required',
             'min' => 'The :attribute of product no least as :min character',
-            'integer' => 'The :attribute of product must be Integer'
+            'integer' => 'The :attribute of product must be Integer',
+            // 'uppercase' => 'The :attribute phai viet hoa'
+
         ];
         $attribute = [
             'product_name' => 'The name of product',
@@ -75,9 +78,11 @@ class HomeController extends Controller
 
     public function getNews()
     {
-        return 'Danh sach tin tuc';
+    return 'Danh sach tin tuc';
     }
-    public function getCategory($id)
+
+public function getCategory($id)
+
     {
         return 'Chuyen muc: ' . $id;
     }
