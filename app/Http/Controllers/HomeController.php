@@ -38,7 +38,9 @@ class HomeController extends Controller
     public function postAdd(ProductRequest $ProductRequest)
     {
         $rules = [
-            'product_name' => ['required', 'min:6', new UpperCase],
+            'product_name' => ['required', 'min:6', function ($value, $fail){
+                isUpperCase($value,'Truong :attribute khong hop le', $fail);
+            }],
             'product_price' => ['required','integer', new UpperCase],
         ];
 
