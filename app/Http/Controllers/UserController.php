@@ -89,4 +89,24 @@ class UserController extends Controller
       $this->users->updateUser($dataUpdate, $id);
       return back()->with('msg', 'cập nhật người dùng');
    }
+   public function delete($id = 0) {
+      if (!empty($id)) {
+         $userDetial = $this->users->getDetial($id);
+         if (!empty($userDetial[0])) {
+            $deleteStatus =  $this->users->deleteUser($id);
+            if($deleteStatus){
+               $msg = 'Xóa người dùng thành công';
+            }
+            else {
+               $msg = 'Bạn không thể xóa người dùng';
+            }
+
+         } else {
+            $msg = 'Người dùng không tồn tại';
+         }
+      } else {
+         $msg = 'Liên kết không tồn tại';
+      }
+      return redirect()->route('users.index')->with('msg',$msg );
+   } 
 }

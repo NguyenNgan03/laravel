@@ -34,7 +34,7 @@
                 <a href="{{route('users.edit', ['id' => $item->id])}}" class="btn btn-warning btn-sm">Sửa</a>
             </td>
             <td>
-                <a href="" class="btn btn-danger btn-sm">Sửa</a>
+            <a onclick="return confirm('Bạn có chắc muốn xóa')" href="{{ route('users.delete', ['id' => $item->id]) }}" class="btn btn-danger btn-sm">Xóa</a>
             </td>
         </tr>
         @endforeach
