@@ -7,148 +7,96 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     //
-    public function __construct(Request $request){
-        // if ($request->is('categories')){
-        //     echo '<h3>welcome to Army code!</h3>';
-        // }
-
+    public function __construct(Request $request)
+    {
+       if($request->is('category')){
+            echo 'xin chào';
+       }
+       // Nếu là trang danh sách chuyên mục sẽ hiển thị ra dòng chữ xin chào unicode
     }
-    //Hien thi danh sach chuyen muc (phuong thuc GET)
+    // hiển thị danh sách chuyên mục pt get
     public function index(Request $request){
         // if (isset($_GET['id'])){
         //     echo $_GET['id'];
         // }
-
+        // $dataRequest = $request->all();
+        // dd($dataRequest);
         // $path = $request->path();
         // echo $path;
-
         // $url = $request->url();
-
         // $fullUrl = $request->fullUrl();
-
         // $method = $request->method();
+
         // $ip = $request->ip();
-        // echo "IP is ".$ip;
+        // echo 'ip'.$ip;
+        // $server = $request ->server();
+        // dd($server);
 
-        // if ($request->isMethod('GET')){
-        //     echo "Method GET";
-        // }
+        // $header = $request->header();
+        // dd($header['']);
 
-        // echo $method;
+        // $id = $request->input('id');
 
-        // $server = $request->server();
+        // $input= $request->input();
+        // dd($input);
 
-        // dd($server ["SERVER_PORT"]);
+        // $id=$request->input('id.1.name');
+        // dd($id);
 
-        // $header = $request->header("user-agent");
-        // dd($header);
+        // $id=$request->query('id');
 
-        // $id = $request->input("id");
-
-        // echo $id;
-
-        // $id = $request->input("id.*.name");
-        
-        // $id = $request->id;
-        // $name = $request->name;
-
-        // dd ($id);
-
-        // dd(request()->id);
-        // $name = request('name','Unicode');
-
-        // $id =$request->query('id');
-        // dd ($id);
-
-        // $query =$request->query();
+        // $query = $request->query();
         // dd($query);
-
-        return view('/clients/categories/list');
+        
+        return view('clients/category/list');
     }
-    //Lay ra mot chuyen muc id (PT get)
+    
+    // phương thức get
     public function getCategory($id){
-        return view('/clients/categories/edit');
+        return view('clients/category/edit');
     }
-    //Cap nhat mot chuyen muc (PT post)
+    // cập nhật chuyên mục phương thức post
     public function updateCategory($id){
-        return 'Submit sua chuyen muc '.$id;
+        return 'Submit sửa chuyên mục'.$id;
     }
-    //show forms them du lieu (phuong thuc GET)
+    public function showCategory(){
+    return 'submit chyueen mục';
+    }
+    // Thêm dữ liệu vào chuyên mục phương thức post
     public function addCategory(Request $request){
-
-        
-        // $path = $request->path();
-        // echo $path;
-
-        $cateName = $request->old('category_name', 'Default');
-        
-        echo $cateName;
-
-        return view('/clients/categories/add');
-    }
-    //them du lieu vao chuyen muc
-    public function handleAddCategory(Request $request){
         // $allData = $request->all();
-
         // dd($allData);
-
-        // if ($request->isMethod('POST')){
-        //     echo "Method POST";
-        // }
-
-        // return redirect(route('categories.add'));
-        // return 'Submit them chuyen muc';
-
-        // $category = $request->query('id');
-
+        // $cateName = $request->id;
+        // dd($cateName);
         if($request->has('category_name')){
-            $category = $request->category_name;
             $request->flash();
-           return redirect(route('categories.add'));
-            
+            // dd($cateName);
+          return  redirect(route('category.add'));
         }
-        else{
-            echo 'Dont have Category';
+        else {
+            return 'Không có category name';
         }
 
-        // dd($category);
 
-
+        $old = $request->old('category_name');
+        return view('clients/category/add');
     }
-    //Xoa du lieu (phuong thuc DELETE)
+    // Xóa dữ liệu bằng pt delete
     public function deleteCategory($id){
-        return 'Submit xoa chuyen muc '.$id;
     }
-
     public function getFile(){
-        return view('/clients/categories/file');
+        return view('clients/category/file');
     }
-    // Xu ly lay thong tin file 
-    public function handleFile(Request $request){
-        // $file = $request->file('photo');
+    public function Handlefile(Request $request){
+       // $file = $request->file();
        
+        // dd($file);
         if ($request->hasFile('photo')){
-            if ($request->photo->isValid()){
-                $file = $request->photo;
-                // $path = $file->path();
-                $ext = $file->extension();
-                // $path = $file->store('file-txt', 'local');
-                // $path = $file->storeAs('file-txt','khoa-hoc.txt');
-
-                // $fileName = $file->getClientOriginalName();
-
-                // Doi ten file 
-
-                $fileName = md5(uniqid()).'.'.$ext;
-                dd($fileName);
-            }
-            else{
-                return "Upload not successful";
-            }
+            $file = $request->file();
         }
         else{
-            return "Please choose file";
+            return "chọn file";
         }
-      
     }
+
 }

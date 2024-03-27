@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function __construct(){
-        // echo  'Khoi dong dashboard';
-    // su dung session de check login 
-
+    //
+    public function __construct()
+    {
+        echo 'Khởi động';
+        //return 'Khởi động';
     }
     public function index(){
-        echo'<h2>Dashboard</h2>';
+        return '<h2> Dashboard</h2>';
     }
 }

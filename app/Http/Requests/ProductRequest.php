@@ -2,27 +2,28 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, mixed>
      */
-    //Chua cac rule can validate 
-    public function rules(): array
+    public function rules()
     {
         return [
             'product_name' => 'required|min:6',
@@ -32,41 +33,36 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'product_name.required' => 'The :attribute of product is required',
-            'product_name.min' => 'The :attribute of product no least as :min character',
-            'product_price.required' => 'The :attribute of product is required',
-            'product_price.integer' => 'The :attribute of product must be Integer'
+            'product_name.required' => 'Trường :attribute bắt buộc phải nhập',
+            'product_name.min' => 'Tên sản phẩm không được nhỏ hơn :min ký tự',
+            'product_price.required' => 'Trường :attribute bắt buộc phải nhập',
+            'product_name.integer' => 'Trường :attribute  phải là số'
         ];
     }
-    //Thay doi truong cho bang 
     public function attributes()
     {
         return [
-            'product_name' => 'Name of the product',
-            'product_price' => 'Price of the product'
+            'product_name' => 'Tên sản phẩm',
+            'product_price'=> 'Giá sản phẩm' 
         ];
     }
+    public function withValidator($validator){
+        $validator->after(function($validator){
 
-    protected function withValidator($validate)
-    {
-        $validate->after(function ($validate) {
-            if ($validate->errors()->count() > 0) {
-                $validate->errors()->add('msg', 'Have Error. Please recheck your system');
+            if($validator->errors()->count()>0){
+                $validator->errors()->add('msg','Có lỗi Xảy ra');
             }
         });
     }
-
-    public function prepareForValidation()
-    {
+    public function prepareForValidation(){
         $this->merge([
-            'create_at' => date('Y-m-d H:i:s')
+            'create_at' =>date('Y-m-d H:i:s')
         ]);
     }
     protected function failedAuthorization()
     {
-        // throw new AuthorizationException("You dont have allow to access");
-        // throw new HttpResponseException(redirect('/')->with('msg', 'Ban Khong co quyen truy cap')->with('type','danger'));
-
-        // throw new HttpResponseException(abort(404));
+       // throw new AuthorizationException('Bạn không có quyền truy cập ');
+      // throw new HttpResponseException(redirect('/')->with('msg','Bạn không có quyền truy cập')->with('type','danger'));
+      throw new HttpResponseException(abort(404));
     }
 }
