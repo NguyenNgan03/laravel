@@ -28,12 +28,19 @@ class Users extends Model
     }
     public function learnQueryBuiler(){
         // lấy tất cả bản ghi của table
+        $id=20;
        $lists = DB::table($this->table)
        ->select('fullname','email')
-    //    ->where('id','<>',2)
-        ->where('id','>=',2)
-        ->where('id','<=',4)
-       ->get();
+        // ->where('id',2)
+        // ->where(function($query) use ($id){
+        //     $query->where('id', '<',$id)->orWhere('id','>',$id);
+        //     $query->orWhere('id','>',$id);
+        // })
+       // ->where('fullname','like','%Vân Thư%')
+    //    ->whereBetween('id',[1,4])
+    ->whereIn('id',[1,4])
+        ->get();
+       $sql = DB::getQueryLog();
        
        // Lấy 1 bản ghi đầu tiên của table lấy thông tin chi tiết
        $detail = DB::table($this->table)->first();
