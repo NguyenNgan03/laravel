@@ -53,8 +53,19 @@ class Users extends Model
         //     ->get();
         //Join 2 bảng lại với nhau
         $lists =  DB::table('users')
-            ->select('users.*', 'groups.name as group_name')
-            ->rightJoin('groups', 'users.group_id', '=', 'groups.id');
+            // ->select('users.*', 'groups.name as group_name')
+            // ->rightJoin('groups', 'users.group_id', '=', 'groups.id');
+            //->orderBy('create_at','desc');
+            // ->orderBy('id','desc');
+            // ->inRandomOrder();
+            // ->select(DB::raw('count(id) as email_count'), 'email')
+            // ->groupBy('email')
+            // ->having('email_count')
+            // ->limit(2)
+            // ->offset(1)
+            ->take(2)
+            ->skip(2)
+            ->get();
         $sql = DB::getQueryLog();
         dd($sql);
         // Lấy 1 bản ghi đầu tiên của table lấy thông tin chi tiết
