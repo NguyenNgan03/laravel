@@ -17,7 +17,7 @@ class UserController extends Controller
    public function index()
    {
       $title = 'Danh sách người dùng';
-
+      $this->users->learnQueryBuiler();
       $userList = $this->users->getAllUser();
       return view('client.users.lists', compact('title', 'userList'));
    }

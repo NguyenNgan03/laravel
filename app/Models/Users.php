@@ -26,4 +26,17 @@ class Users extends Model
     public function deleteUser($id){
       return  DB::delete("DELETE FROM $this->table WHERE id=? ",[$id]);
     }
+    public function learnQueryBuiler(){
+        // lấy tất cả bản ghi của table
+       $lists = DB::table($this->table)
+       ->select('fullname','email')
+    //    ->where('id','<>',2)
+        ->where('id','>=',2)
+        ->where('id','<=',4)
+       ->get();
+       
+       // Lấy 1 bản ghi đầu tiên của table lấy thông tin chi tiết
+       $detail = DB::table($this->table)->first();
+
+    }
 }
