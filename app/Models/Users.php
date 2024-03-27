@@ -52,7 +52,7 @@ class Users extends Model
         // ->whereColumn('create_at','>','update_at'
         //     ->get();
         //Join 2 bảng lại với nhau
-        $lists =  DB::table('users')
+        // $lists =  DB::table('users')
             // ->select('users.*', 'groups.name as group_name')
             // ->rightJoin('groups', 'users.group_id', '=', 'groups.id');
             //->orderBy('create_at','desc');
@@ -63,11 +63,42 @@ class Users extends Model
             // ->having('email_count')
             // ->limit(2)
             // ->offset(1)
-            ->take(2)
-            ->skip(2)
-            ->get();
-        $sql = DB::getQueryLog();
-        dd($sql);
+            // ->take(2)
+            // ->skip(2)
+            // ->get();
+            // $status = DB::table('users')->insert([
+            //     'fullname' => 'Nguyễn Văn A',
+            //     'email' => 'nguyenvana@gamil.com',
+            //     'group_at' => 1,
+            //     'create_at' =>date('Y-m-d H:i:s')
+            // ]);
+            // dd($status);
+            // $lastId = DB::getPdo()->lastInsertId();
+
+            // $lastId = DB::table('users')->insertGetId([
+            //     'fullname' => 'Nguyễn Văn A',
+            //     'email' => 'nguyenvana@gamil.com',
+            //     'group_at' => 1,
+            //     'create_at' =>date('Y-m-d H:i:s')
+            // ]);
+
+            // $status = DB::table('users')
+            // ->where('id',3)
+            // ->update([
+            //     'fullname' => 'Nguyễn Văn B',
+            //     'email' => 'nguyenvanb@gmail.com',
+            //     'update_at' => 'Y-m-d H:i:s' 
+            // ]);
+
+            // $status = DB::table('users')
+            // ->where('id',3)
+            // ->delete();
+
+            // đếm số bảng ghi
+            $count = DB::table('users')->where('id','>',2)
+                ->count();
+            $sql = DB::getQueryLog();
+            dd($sql);
         // Lấy 1 bản ghi đầu tiên của table lấy thông tin chi tiết
         $detail = DB::table($this->table)->first();
     }
