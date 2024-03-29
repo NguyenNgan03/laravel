@@ -10,15 +10,29 @@ class Users extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    public function getAllUser($filter = [])
+    public function getAllUser($filter = [], $keywords = null, $sortBy = null)
     {
         // $users = DB::select('SELECT * from users ORDER BY create_at DESC');
         $users = DB::table($this->table)
-        ->select('users.*','groups.name as group_name')
-        ->join('groups','users.group_id','=','groups.id')
-        ->orderBy('users.create_at','DESC');
-        if (!empty($filter)){
+            ->select('users.*', 'groups.name as group_name')
+            ->join('groups', 'users.group_id', '=', 'groups.id');
+        $orderBy = 'users.create_at';
+        $orderType = 'desc';
+        if (!empty($sortByArr) && is_array($sortBy)) {
+            if (!empty($sortByArr['sortBy']) && !empty($sortByArr['sortType'])) {
+                $orderBy = trim($sortByArr['sortBy']);
+                $orderType = trim($sortByArr['sortType']);
+            }
+        }
+        $users = $users->orderBy( $orderBy, $orderType);
+        if (!empty($filter)) {
             $users = $users->where($filter);
+        }
+        if (!empty($keywords)) {
+            $users = $users->where(function ($query) use ($keywords) {
+                $query->orWhere('fullname', 'like', '%' . $keywords . '%');
+                $query->orWhere('email', 'like', '%' . $keywords . '%');
+            });
         }
         $users = $users->get();
         return $users;
