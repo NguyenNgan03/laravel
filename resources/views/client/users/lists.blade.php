@@ -11,7 +11,7 @@
 <h1>{{$title}}</h1>
 <a href="{{route('users.add')}}" class="btn btn-primary">Thêm người dùng</a>
 <hr>
-<form action="" method="get"  class="mb-3">
+<form action="" method="get" class="mb-3">
     <div class="row">
         <div class="col-3">
             <select name="status" class="form-control">
@@ -72,4 +72,5 @@
         @endif
     </tbody>
 </table>
+
 @endsection
