@@ -31,11 +31,33 @@ class UserController extends Controller
 
       if (!empty($request->group_id)) {
          $groupId = $request->group_id;
-      
+
          $filter[] = ['users.group_id', '=', $$groupId];
       }
-      $userList = $this->users->getAllUser($filter);
-      return view('client.users.lists', compact('title', 'userList'));
+      if(!empty($request->keywords)){
+         $keywords = $request->keywords;
+      }
+      $sortType = $request->input('sort-by');
+      $allowSort = ['asc','desc'];
+      $sortBy = $request->input('sort-type');
+      if (!empty($sortType) && in_array($sortType,$allowSort) ){
+         if($sortType == "desc"){
+            $sortType = 'asc';
+         }
+         else {
+            $sortType = 'desc';
+         }
+      }
+      else{
+         $sortType = 'asc';
+      }
+      $sortArr = [
+         'sortBy' => $sortBy,
+         'sortType' =>$sortType
+      ];
+     
+      $userList = $this->users->getAllUser($filter,$sortBy);
+      return view('client.users.lists', compact('title', 'userList','sortType'));
    }
    public function add()
    {
