@@ -10,7 +10,7 @@ class Users extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    public function getAllUser($filter = [], $keywords = null, $sortBy = null)
+    public function getAllUser($filter = [], $keywords = null, $sortBy = null, $perPage = null)
     {
         // $users = DB::select('SELECT * from users ORDER BY create_at DESC');
         $users = DB::table($this->table)
@@ -34,12 +34,19 @@ class Users extends Model
                 $query->orWhere('email', 'like', '%' . $keywords . '%');
             });
         }
-        $users = $users->get();
+        if(!empty($perPage)){
+            $users = $users->paginate($perPage);
+        }
+        else {
+            $users = $users->get();
+        }
+       
         return $users;
     }
     public function addUser($data)
     {
-        Db::insert('INSERT INTO users (fullname,email,create_at) value (?,?,?)', $data);
+       // DB::insert('INSERT INTO users (fullname,email,create_at) value (?,?,?)', $data);
+       DB::table($this->table)->insert($data);
     }
     public function getDetial($id)
     {
