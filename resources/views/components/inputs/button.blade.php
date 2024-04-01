@@ -1,1 +1,1 @@
-<button class= "btn btn-primary"> Dăng ký ngay</button>
+<button class="btn btn-primary">Đăng ký ngay</button>

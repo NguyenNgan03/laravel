@@ -1,3 +1,1 @@
-<button type="button" class= "btn btn-success">
-    Đặt hàng thành công
-</button>
+<button class="btn btn-danger">Đăng ký ngay</button>

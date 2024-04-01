@@ -7,13 +7,12 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    //
     public function __construct()
     {
-        echo 'Khởi động';
-        //return 'Khởi động';
+        //Sử dụng session để kiểm tra login
+        // echo "Dishboard khởi động";
     }
     public function index(){
-        return '<h2> Dashboard</h2>';
+        return '<h2>Dashboard Welcome</h2>';
     }
 }

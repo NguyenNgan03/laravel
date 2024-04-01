@@ -2,50 +2,27 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
-
-class Uppercase implements Rule
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+// use App\Rules\nb_strtoupper;
+class Uppercase implements ValidationRule
 {
+    /**
+     * Run the validation rule.
+     *
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     */
     private $attribute = null;
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
+     
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        $this->attribute = null;
         //
-    }
-
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function passes($attribute, $value)
-    {
-        $this->attribute = $attribute;
-        //
-        if($value == mb_strtoupper($value,'UTF-8')){
-            return true;
+        // if (strtoupper($value) !== $value) {
+        //     $fail('Trường :attribute không hợp lệ phải viết hoa.');
+        // }
+        if (strtoupper($value) !== $value) {
+            $fail('validation.uppercase')->translate();
         }
-        return false;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-       // return 'Trường :attribute không hợp lệ';\
-       $customMessage = 'validation.custom'.($this->attribute).'uppercase';
-      if (trans($customMessage)!= ($customMessage) ){
-            return trans($customMessage);
-       }
-       return trans('validation.uppercase');
     }
 }

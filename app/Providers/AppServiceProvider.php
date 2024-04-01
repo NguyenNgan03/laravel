@@ -2,53 +2,37 @@
 
 namespace App\Providers;
 
-use Illuminate\Console\View\Components\Alert;
+use App\View\Components\Alert;
+use App\View\Components\Inputs\Button;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
-use App\View\Components\Arlert;
-use App\View\Components\Inputs\Button;
 use Illuminate\Pagination\Paginator;
-// use App\View\Components\Forms\Button as FormButton;
+
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        // Blade::directive('datatime', function ($expression) {
-        //     $expression = trim($expression, '\'');
-        //     $expression = trim($expression, '"');
-        //     $dateObject = date_create($expression);
-
-        //     if (!empty($dateObject)) {
-        //         $dateFormat = $dateObject-> format('d/m/Y H:i:s');
-        //         return $dateFormat ;
-        //     }
-        //     return false;
-        // });
-        Blade::if('env',function($value) {
-            if(config('app.env') === $value){
+        Blade::if('env', function ($value) {
+            //Trả về giá trị boolean
+            if (config('app.env') === $value) {
                 return true;
             }
             return false;
         });
-        Blade::component('alert', Arlert::class);
+        // Blade::component('package-alert', Alert::class);
         Blade::component('button', Button::class);
-        //Blade::component('form-button', FormButton::class);
-        Paginator::useBootstrap();
+        Paginator::useBootstrapFive();
     }
 }
