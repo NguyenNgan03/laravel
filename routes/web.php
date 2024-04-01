@@ -11,6 +11,7 @@ use App\Http\Controllers\MyOontroller;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MyController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Response;
 use Illuminate\Mail\Mailables\Content;
 use PhpParser\Node\Stmt\Return_;
@@ -80,3 +81,7 @@ Route::prefix('/users')->name('users.')->group(function(){
      Route::post('/update',[UserController::class,'postEdit'])->name('post-edit');
      Route::get('/delete/{id}',[UserController::class,'delete'])->name('delete');
 });
+Route::prefix('/posts')->name('posts.')->group(function(){
+          Route::get('/',[PostController::class,'index'])->name('index');
+});
+
